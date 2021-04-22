@@ -4,10 +4,14 @@ Serial Connection to LIN BUS Breakout Board to UCC4000 / UCC2500 Pepperl+Fuchs U
 
 cd ~/catkin_ws/src
 
-git clone https://github.com/roarLab/Panthera/tree/sensors/ultrasonic_sensor_script
+copy paste ultrasonic_sensors package into /catkin_ws/src
 
-sudo chmod 777 *
+cd /ultrasonic_sensors/src
 
-cd ..
+sudo chmod +x *
 
-catkin_make
+cd && cd catkin_ws
+
+catkin_make && source devel/setup.bash
+
+rosrun ultrasonic_sensors ultrasonic_main.py
