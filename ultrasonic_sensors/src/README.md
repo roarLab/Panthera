@@ -1,3 +1,10 @@
+Run ultrasonic sensor:
+
+rosrun ultrasonic_sensors ultrasonic_main.py
+
+
+Ultrasonic Sensor LINBUS message
+
 Telegram Structure
 _____________________________________________________
 
@@ -56,7 +63,7 @@ ____________________________________________________
 Write Sensor Address:
 
 SYNC BYTE | OP CODE | DATA BYTE | CHECK BYTE
-  0xA..	  |  0x35	| 	0x..	|    0x..
+  0xA..	  |  0x35   | 	0x..	|    0x..
 
 *DATA BYTE = New Sensor Address
 
@@ -69,8 +76,8 @@ _____________________________________________________
 
 Read Sensor Address (For Unknown Address):
 
-SYNC BYTE |	OP CODE	| DATA BYTE | CHECK BYTE
-   0xA8   |  0x00	| 	0x00	| 	0x43
+SYNC BYTE |    OP CODE	| DATA BYTE | CHECK BYTE
+   0xA8   |     0x00	|    0x00   | 	0x43
 
 Response:
 
@@ -82,7 +89,7 @@ _____________________________________________________
 Read Sensor Address (Test Sensor Response):
 
 SYNC BYTE  |   OP CODE	|   DATA BYTE | CHECK BYTE
-   0xA..   |  	0x35	| 	  0xFF	  | 	0X..
+   0xA..   |  	0x35	|   0xFF      |    0X..
 
 Response:
 

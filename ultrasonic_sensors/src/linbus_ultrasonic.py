@@ -70,6 +70,8 @@ class Ultrasonic(object):
         try: 
             message = self.serial.readline(6)        # Expected output: \xA8\x00\x00C\x01\xd4 for address x01
             print(message, len(message))
+            arr = bytearray(message)
+            self.address = arr[4]
             if False: pass       # Check for NACK (Sensor reads error) 
             else: 
                 
@@ -147,8 +149,8 @@ class Ultrasonic(object):
         time.sleep(0.01)
 
         try: 
-            raw_message = self.serial.readline(6)
-            #print("raw message",raw_message,len(raw_message))
+            raw_message = self.serial.readline()
+            print("raw message",raw_message,len(raw_message))
         
         except: print('Measure response message corrupted', len(raw_message), type(raw_message))
         
@@ -169,6 +171,33 @@ class Ultrasonic(object):
             return(distance)
             #time.sleep(1)
 
+    def setAddress(self, new_addr):
+        SYNC =  "1010"        + "0" +    '{:03b}'.format(self.address)      # SYNC BYTE abstraction in string --> binary
+        SYNC_BYTE = int(SYNC, 2)
+        OP_CODE = int("0x35", 16)
+        new_address = "0x0{}".format(str(new_addr))
+        DATA_BYTE = int(new_address, 16)
+        CHECKSUM_BYTE = self._checksum((SYNC_BYTE,OP_CODE, DATA_BYTE))
 
+        message_send = bytearray([SYNC_BYTE,OP_CODE,DATA_BYTE,CHECKSUM_BYTE])
+        self.serial.write(message_send)
+        try:
+            raw_message = self.serial.readline()
+            print("New address: {}".format(str(new_addr)))
+            self.address = new_addr
+        except:
+            print("Failed to set new address")
 
+    def off_pwm(self):
+        SYNC_BYTE = int("0xA7", 16)
+        OP_CODE = int("0x0A", 16)
+        DATA_BYTE = int("0x01", 16)
+        CHECKSUM_BYTE = int("0x51", 16)
 
+        message = bytearray([SYNC_BYTE,OP_CODE,DATA_BYTE,CHECKSUM_BYTE])
+        self.serial.write(message)
+        try:
+            raw_message = self.serial.readline()
+            print("PWM turned off")
+        except:
+            print("Failed to off PWM")
