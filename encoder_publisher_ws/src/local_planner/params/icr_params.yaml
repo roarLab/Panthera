@@ -1,0 +1,15 @@
+steering_function: -1.0 # steering angle function-
+max_rotation_function: 1.0 # clearance function
+min_icr_dist: -1.0 # distance function
+
+gradient_descent: false # true: run gradient descent, false: run brute force
+
+angle_interval: 10 # sampling interval for clearance function
+robot_length: 2.0 # physical length of robot
+robot_width: 1.3 # physical width or robot
+front_back_wheel_sep: 1.3
+turn_speed: 0.05
+
+operation: false # false means not connected to robot
+
+filename: 'icr3_.txt' # write to this file name in .ros folder
